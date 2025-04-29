@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vaishnavi's Bakery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+    body, html { margin: 0; padding: 0; scroll-behavior: smooth; background: #fff; }
+
+    header {
+  background: url('https://wallpaperbat.com/img/270457-cake-wallpaper.jpg') no-repeat center center/cover;
+  height: 100vh;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-shadow: 2px 2px 8px #000;
+}
+
+    header h1 {
+      font-size: 4em;
+      margin-bottom: 20px;
+    }
+
+    header button {
+      padding: 15px 30px;
+      background: #ff6f61;
+      border: none;
+      font-size: 1.2em;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    nav {
+      background: #ff6f61;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .section {
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .menu-category {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .item {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .item img {
+      width: 100%;
+      border-radius: 8px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .item button {
+      margin-top: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    #cart, #login, #register, #checkout, #orders {
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+
+    .bill {
+      text-align: right;
+      font-size: 1.2em;
+    }
+
+    .btn {
+      background: #ff6f61;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #eee;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="home">
+    <h1>Vaishnavi's Bakery</h1>
+    <button onclick="document.getElementById('login').style.display='block'; scrollToSection('login')">Order Now</button>
+  </header>
+
+  <nav>
+    <a href="#cakes">Cakes</a>
+    <a href="#snacks">Snacks</a>
+    <a href="#sweets">Sweets</a>
+    <a href="#dairy">Dairy</a>
+    <a href="#icecream">Ice Cream</a>
+    <a href="#dryfruits">Dry Fruits</a>
+    <a href="#" onclick="showCart()">Cart</a>
+  </nav>
+
+  <div class="container">
+    <!-- Sections -->
+    <div id="cakes" class="section">
+      <h2>Cakes</h2>
+      <div class="menu-category" id="cakesList"></div>
+    </div>
+
+    <div id="snacks" class="section">
+      <h2>Snacks</h2>
+      <div class="menu-category" id="snacksList"></div>
+    </div>
+
+    <div id="sweets" class="section">
+      <h2>Sweets</h2>
+      <div class="menu-category" id="sweetsList"></div>
+    </div>
+
+    <div id="dairy" class="section">
+      <h2>Dairy Products</h2>
+      <div class="menu-category" id="dairyList"></div>
+    </div>
+
+    <div id="icecream" class="section">
+      <h2>Ice Creams</h2>
+      <div class="menu-category" id="icecreamList"></div>
+    </div>
+
+    <div id="dryfruits" class="section">
+      <h2>Dry Fruits</h2>
+      <div class="menu-category" id="dryList"></div>
+    </div>
+
+    <!-- Login/Register -->
+    <div id="login" class="section">
+      <h2>Login</h2>
+      <div class="form-group"><input type="text" id="loginUsername" placeholder="Username"></div>
+      <div class="form-group"><input type="password" id="loginPassword" placeholder="Password"></div>
+      <button class="btn" onclick="login()">Login</button>
+      <p>No account? <a href="#" onclick="showRegister()">Register here</a></p>
+    </div>
+
+    <div id="register" class="section">
+      <h2>Register</h2>
+      <div class="form-group"><input type="text" id="regUsername" placeholder="Username"></div>
+      <div class="form-group"><input type="password" id="regPassword" placeholder="Password"></div>
+      <div class="form-group"><textarea id="regAddress" placeholder="Address"></textarea></div>
+      <button class="btn" onclick="register()">Register</button>
+    </div>
+
+    <!-- Cart -->
+    <div id="cart" class="section">
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <div class="bill" id="billAmount"></div>
+      <button class="btn" onclick="checkout()">Checkout</button>
+    </div>
+
+    <!-- Checkout -->
+    <div id="checkout" class="section">
+      <h2>Order Placed!</h2>
+      <p>Thank you for your order. Your order has been saved!</p>
+      <button class="btn" onclick="showOrders()">View Order History</button>
+    </div>
+
+    <!-- Orders -->
+    <div id="orders" class="section">
+      <h2>Order History</h2>
+      <div id="orderList"></div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2025 Vaishnavi's Bakery | All Rights Reserved
+  </footer>
+
+  <script>
+    const menuItems = {
+      cakes: [
+        { name: 'Chocolate Cake', price: 300, img: 'https://wallpaperaccess.com/full/1986088.jpg' },
+        { name: 'Vanilla Cake', price: 250, img: 'https://th.bing.com/th/id/OIP.mB8rBE77Nwg9YOGopTypyQHaLH?w=600&h=900&rs=1&pid=ImgDetMain' },
+      ],
+      snacks: [
+        { name: 'Veg Puff', price: 40, img: 'https://i0.wp.com/cookingfromheart.com/wp-content/uploads/2020/12/Veg-Puff-2.jpg?resize=600%2C898&ssl=1' },
+        { name: 'Samosa', price: 30, img: 'https://th.bing.com/th/id/OIP.1wbZdntoeZuGHkettzWxkwHaEO?rs=1&pid=ImgDetMain' },
+      ],
+      sweets: [
+        { name: 'Gulab Jamun', price: 100, img: 'https://img.freepik.com/premium-photo/gulab-jamun-photo_976586-4952.jpg' },
+        { name: 'Rasgulla', price: 120, img: 'https://www.palatesdesire.com/wp-content/uploads/2015/08/Rasgulla_recipe@Palates_desire-scaled.jpg' },
+      ],
+      dairy: [
+        { name: 'Milk', price: 50, img: 'https://th.bing.com/th/id/OIP.t5tayXrtYUaNL_wR149HAwHaEJ?w=626&h=351&rs=1&pid=ImgDetMain' },
+        { name: 'Paneer', price: 200, img: 'https://th.bing.com/th/id/OIP.e1ETKHnBxt9ACYm-841DQwAAAA?w=474&h=711&rs=1&pid=ImgDetMain' },
+      ],
+      icecream: [
+        { name: 'Vanilla', price: 80, img: 'https://th.bing.com/th/id/OIP.4WyYQjJcduMzU3ING2wHPgHaE8?rs=1&pid=ImgDetMain' },
+        { name: 'Chocolate', price: 90, img: 'https://aws.wideinfo.org/hangryum.com/wp-content/uploads/2022/08/06154039/chocolate-icecream_1920px.jpg' },
+      ],
+      dryfruits: [
+        { name: 'Cashew', price: 400, img: 'https://source.unsplash.com/200x150/?cashew' },
+        { name: 'Almonds', price: 450, img: 'https://source.unsplash.com/200x150/?almond' },
+      ]
+    };
+
+    const cart = [];
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showRegister() {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('register').style.display = 'block';
+    }
+
+    function register() {
+      const username = document.getElementById('regUsername').value;
+      const password = document.getElementById('regPassword').value;
+      const address = document.getElementById('regAddress').value;
+      localStorage.setItem('user', JSON.stringify({ username, password, address }));
+      alert("Registered successfully!");
+      document.getElementById('register').style.display = 'none';
+      document.getElementById('login').style.display = 'block';
+    }
+
+    function login() {
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user && user.username === username && user.password === password) {
+        alert("Login successful!");
+        document.getElementById('login').style.display = 'none';
+      } else {
+        alert("Invalid login!");
+      }
+    }
+
+    function addToCart(item) {
+      const found = cart.find(i => i.name === item.name);
+      if (found) {
+        found.qty += 1;
+      } else {
+        cart.push({ ...item, qty: 1 });
+      }
+      alert(`${item.name} added to cart`);
+    }
+
+    function showCart() {
+      document.getElementById('cart').style.display = 'block';
+      let html = '';
+      let total = 0;
+      cart.forEach(i => {
+        html += `<div class="cart-item">${i.name} x ${i.qty} = ₹${i.qty * i.price}</div>`;
+        total += i.qty * i.price;
+      });
+      document.getElementById('cartItems').innerHTML = html;
+      document.getElementById('billAmount').innerHTML = `Total: ₹${total}`;
+    }
+
+    function checkout() {
+      let orders = JSON.parse(localStorage.getItem('orders')) || [];
+      orders.push({ date: new Date().toLocaleString(), items: [...cart] });
+      localStorage.setItem('orders', JSON.stringify(orders));
+      cart.length = 0;
+      document.getElementById('cart').style.display = 'none';
+      document.getElementById('checkout').style.display = 'block';
+    }
+
+    function showOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      let html = '';
+      orders.forEach((o, idx) => {
+        html += `<p><strong>Order #${idx + 1} - ${o.date}</strong><br>`;
+        o.items.forEach(i => {
+          html += `${i.name} x ${i.qty} = ₹${i.qty * i.price}<br>`;
+        });
+        html += '</p>';
+      });
+      document.getElementById('orderList').innerHTML = html;
+      document.getElementById('checkout').style.display = 'none';
+      document.getElementById('orders').style.display = 'block';
+    }
+
+    function renderMenu() {
+      Object.keys(menuItems).forEach(category => {
+        const el = document.getElementById(`${category}List`);
+        menuItems[category].forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'item';
+          div.innerHTML = `
+            <img src="${item.img}" alt="${item.name}" />
+            <h4>${item.name}</h4>
+            <p>₹${item.price}</p>
+            <button onclick='addToCart(${JSON.stringify(item)})'>Add to Cart</button>
+          `;
+          el.appendChild(div);
+        });
+      });
+    }
+
+    renderMenu();
+  </script>
+</body>
+</html>
